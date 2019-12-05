@@ -57,5 +57,5 @@ public class Beverage {
     void preInsert() {
         this.description = getDescription();
     }
-    
+
 }

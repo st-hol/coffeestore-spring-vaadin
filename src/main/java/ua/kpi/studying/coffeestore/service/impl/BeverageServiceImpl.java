@@ -7,8 +7,9 @@ import ua.kpi.studying.coffeestore.domain.beverages.Beverage;
 import ua.kpi.studying.coffeestore.repository.BeverageRepository;
 import ua.kpi.studying.coffeestore.service.BeverageService;
 
-import static java.lang.Math.toIntExact;
 import java.util.List;
+
+import static java.lang.Math.toIntExact;
 
 @Service
 public class BeverageServiceImpl implements BeverageService {
@@ -41,8 +42,30 @@ public class BeverageServiceImpl implements BeverageService {
         return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages());
     }
 
+
     @Override
     public  List<Beverage>  findByDescription(String description) {
         return beverageRepository.findByDescription(description);
     }
 }
+
+
+//    @Override
+//    public List<Beverage> findOnlyMasterBeverages() {
+//        List<Beverage> beverages = Lists.newArrayList(beverageRepository.findOnlyMasterBeverages());
+//        for (Beverage beverage : beverages){
+//            beverage.setDescription(recursiveFindDescription(beverage));
+//        }
+//        return beverages;
+//    }
+
+//    private String recursiveFindDescription(Beverage beverage){
+//        String returnVal = "";
+//        if ((((CondimentDecorator) findById((long) beverage.getId())).beverage) != null){
+//            recursiveFindDescription(findById((long) beverage.getId() - 1));
+//            returnVal = beverage.getDescription();
+//        }
+//        return returnVal;
+//    }
+
+
