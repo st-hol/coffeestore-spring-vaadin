@@ -11,31 +11,47 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.kpi.studying.coffeestore.component.BeverageEditor;
 import ua.kpi.studying.coffeestore.domain.beverages.Beverage;
+import ua.kpi.studying.coffeestore.domain.coffeefm.BeverageStore;
+import ua.kpi.studying.coffeestore.domain.observer.CurrentConditionsDisplay;
 import ua.kpi.studying.coffeestore.service.BeverageService;
-
 
 
 @Route("")
 public class BeverageList extends VerticalLayout {
+
+    private final BeverageStore beverageStore;
+    private final CurrentConditionsDisplay currentConditionsDisplay;
+
     private final BeverageService beverageService;
-
     private final BeverageEditor beverageEditor;
-
-    private Grid<Beverage> employeeGrid= new Grid<>(Beverage.class);
+    private final TextField filterForFm = new TextField();
     private final TextField filter = new TextField();
-    private final Button addNewButton = new Button("New Beverage", VaadinIcon.PLUS.create());
-    private final HorizontalLayout toolbar = new HorizontalLayout(filter, addNewButton);
+    private final Button addNewButton = new Button("New Custom Beverage", VaadinIcon.PLUS.create());
+    private final Button addByFMButton = new Button("Create By FactoryMethod", VaadinIcon.PLUS.create());
+    private final HorizontalLayout toolbar = new HorizontalLayout(filter);
+    private final HorizontalLayout toolbarForAddNew = new HorizontalLayout(addNewButton);
+    private final HorizontalLayout toolbarForFM = new HorizontalLayout(filterForFm, addByFMButton);
+    private Grid<Beverage> employeeGrid = new Grid<>(Beverage.class);
 
     @Autowired
-    public BeverageList(BeverageService beverageService, BeverageEditor beverageEditor) {
+    public BeverageList(CurrentConditionsDisplay currentConditionsDisplay,
+                        BeverageStore beverageStore, BeverageService beverageService, BeverageEditor beverageEditor) {
         this.beverageService = beverageService;
         this.beverageEditor = beverageEditor;
 
-        filter.setPlaceholder("Search by description:");
+        this.beverageStore = beverageStore;
+        this.currentConditionsDisplay = currentConditionsDisplay;
+
+        filter.setPlaceholder("Search:");
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(field -> fillList(field.getValue()));
 
-        add(toolbar, employeeGrid, beverageEditor);
+        filterForFm.setPlaceholder("Type FM param (Espresso or DarkRoast or HouseBlend) :");
+        filterForFm.setValueChangeMode(ValueChangeMode.LAZY);
+//        filterForFm.addValueChangeListener(field -> addByFm(field.getValue()));
+        addByFMButton.addClickListener(e -> addByFm(filterForFm.getValue()));
+
+        add(toolbar, toolbarForAddNew, toolbarForFM, employeeGrid, beverageEditor);
 
         employeeGrid
                 .asSingleSelect()
@@ -58,4 +74,10 @@ public class BeverageList extends VerticalLayout {
             employeeGrid.setItems(this.beverageService.findByDescription(name));
         }
     }
+
+    private void addByFm(String coffeeName) {
+        Beverage beverage = beverageStore.orderBeverage(coffeeName);
+        beverageEditor.addByFm(beverage);
+    }
+
 }

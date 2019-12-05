@@ -7,7 +7,8 @@ import java.util.List;
 public interface BeverageService {
     List<Beverage> findAll();
     Beverage findById(Long id);
-    Beverage save(Beverage complaint);
+
+    Beverage save(Beverage beverage);
     void delete(Beverage beverage);
 
     List<Beverage> findOnlyMasterBeverages();

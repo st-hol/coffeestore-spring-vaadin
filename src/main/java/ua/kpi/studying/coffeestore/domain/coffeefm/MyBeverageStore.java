@@ -10,6 +10,7 @@ import ua.kpi.studying.coffeestore.domain.condiments.Mocha;
 import ua.kpi.studying.coffeestore.domain.condiments.Soy;
 import ua.kpi.studying.coffeestore.domain.condiments.Whip;
 
+@Component
 public class MyBeverageStore extends BeverageStore {
 
 	Beverage makeBeverage(String item) {

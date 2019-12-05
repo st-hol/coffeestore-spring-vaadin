@@ -2,7 +2,6 @@ package ua.kpi.studying.coffeestore.domain.beverages;
 
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -54,4 +53,9 @@ public class Beverage {
         return 0;
     }
 
+    @PrePersist
+    void preInsert() {
+        this.description = getDescription();
+    }
+    
 }

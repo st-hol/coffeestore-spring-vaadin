@@ -12,7 +12,6 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.kpi.studying.coffeestore.domain.beverages.Beverage;
-import ua.kpi.studying.coffeestore.repository.BeverageRepository;
 import ua.kpi.studying.coffeestore.service.BeverageService;
 
 
@@ -79,7 +78,7 @@ public class BeverageEditor extends VerticalLayout implements KeyNotifier {
             return;
         }
 
-        if (beverage.getId() != 0) { //todo
+        if (beverage.getId() != 0) { // todo
             this.beverage = beverageService.findById((long)beverage.getId());
         } else {
             this.beverage = beverage;
@@ -90,5 +89,12 @@ public class BeverageEditor extends VerticalLayout implements KeyNotifier {
         setVisible(true);
 
 //        size.focus();
+    }
+
+    public void addByFm(Beverage beverage) {
+        if (beverage != null) {
+            beverageService.save(beverage);
+        }
+        changeHandler.onChange();
     }
 }
