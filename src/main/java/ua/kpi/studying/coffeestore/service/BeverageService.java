@@ -9,5 +9,7 @@ public interface BeverageService {
     Beverage findById(Long id);
     Beverage save(Beverage complaint);
 
+    void delete(Beverage beverage);
+
     List<Beverage> findOnlyMasterBeverages();
 }

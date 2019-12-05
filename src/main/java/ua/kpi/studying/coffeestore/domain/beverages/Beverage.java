@@ -2,6 +2,7 @@ package ua.kpi.studying.coffeestore.domain.beverages;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,9 +13,9 @@ import javax.persistence.*;
                 @ConstructorResult(
                         targetClass=Beverage.class,
                         columns={
-                                @ColumnResult(name="id"),
-                                @ColumnResult(name="description"),
-                                @ColumnResult(name="size")
+                                @ColumnResult(name="id", type = Integer.class),
+                                @ColumnResult(name="description", type = String.class)
+//                                @ColumnResult(name="size", type = Beverage.Size.class)
                         }
                 )
         }
@@ -26,6 +27,7 @@ import javax.persistence.*;
 //@Embeddable
 @Getter
 @Setter
+@NoArgsConstructor
 ////@Entity
 //@Table(name = "beverages")
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -35,6 +37,11 @@ import javax.persistence.*;
 @DiscriminatorColumn(name="discr")
 public abstract class Beverage {
     public enum Size {TALL, GRANDE, VENTI}
+
+    public Beverage(Integer id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

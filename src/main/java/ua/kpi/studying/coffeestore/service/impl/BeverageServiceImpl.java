@@ -32,6 +32,11 @@ public class BeverageServiceImpl implements BeverageService {
     }
 
     @Override
+    public void delete(Beverage beverage) {
+        beverageRepository.delete(beverage);
+    }
+
+    @Override
     public List<Beverage> findOnlyMasterBeverages() {
         return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages());
     }
