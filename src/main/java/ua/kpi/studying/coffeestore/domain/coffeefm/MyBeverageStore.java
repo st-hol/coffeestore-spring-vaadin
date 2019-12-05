@@ -19,9 +19,7 @@ public class MyBeverageStore extends BeverageStore {
 			case "DarkRoast":
 				return new Whip(new Mocha(new Mocha(new DarkRoast())));
 			case "HouseBlend":
-				return new Whip(new Mocha(new Soy(new HouseBlend()) {{
-					setSize(Size.VENTI);
-				}}));
+				return new Whip(new Mocha(new Soy(new HouseBlend())));
 			default:
 				return null;
 		}

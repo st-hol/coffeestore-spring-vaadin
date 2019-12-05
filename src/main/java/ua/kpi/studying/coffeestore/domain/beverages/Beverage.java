@@ -15,19 +15,17 @@ import javax.persistence.*;
                         columns={
                                 @ColumnResult(name="id", type = Integer.class),
                                 @ColumnResult(name="description", type = String.class)
-//                                @ColumnResult(name="size", type = Beverage.Size.class)
                         }
                 )
         }
 )
 @NamedNativeQuery(name="Beverage.findOnlyMasterBeverages",
-        query="select * from beverage b where b.beverage is null",
+        query="select b.id, b.description from beverage b where b.beverage is null",
         resultSetMapping="MasterBeveragesMapping")
 
 //@Embeddable
 @Getter
 @Setter
-@NoArgsConstructor
 ////@Entity
 //@Table(name = "beverages")
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -35,10 +33,13 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="discr")
-public abstract class Beverage {
-    public enum Size {TALL, GRANDE, VENTI}
+public class Beverage {
 
-    public Beverage(Integer id, String description) {
+    public Beverage(){
+
+    }
+
+    public Beverage(int id, String description) {
         this.id = id;
         this.description = description;
     }
@@ -47,8 +48,10 @@ public abstract class Beverage {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    Size size = Size.TALL;
     String description = "Unknown Beverage";
 
-    public abstract double cost();
+    public double cost() {
+        return 0;
+    }
+
 }

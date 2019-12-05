@@ -44,8 +44,9 @@ public class CoffeeStoreApplication {
         return args -> {
 
             // save a couple of customers
+            repository.save(myBeverageStore.orderBeverage("Espresso"));
             repository.save(myBeverageStore.orderBeverage("DarkRoast"));
-//            repository.save(myBeverageStore.orderBeverage("HouseBlend"));
+            repository.save(myBeverageStore.orderBeverage("HouseBlend"));
 
             // fetch all customers
             log.info("Customers found with findAll():");

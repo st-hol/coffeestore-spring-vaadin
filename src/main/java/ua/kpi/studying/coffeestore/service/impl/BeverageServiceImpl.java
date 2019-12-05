@@ -40,4 +40,9 @@ public class BeverageServiceImpl implements BeverageService {
     public List<Beverage> findOnlyMasterBeverages() {
         return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages());
     }
+
+    @Override
+    public  List<Beverage>  findByDescription(String description) {
+        return beverageRepository.findByDescription(description);
+    }
 }

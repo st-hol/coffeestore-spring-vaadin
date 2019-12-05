@@ -31,7 +31,7 @@ public class BeverageList extends VerticalLayout {
         this.beverageService = beverageService;
         this.beverageEditor = beverageEditor;
 
-        filter.setPlaceholder("Type to filter");
+        filter.setPlaceholder("Search by description:");
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(field -> fillList(field.getValue()));
 
@@ -41,12 +41,7 @@ public class BeverageList extends VerticalLayout {
                 .asSingleSelect()
                 .addValueChangeListener(e -> beverageEditor.editBeverage(e.getValue()));
 
-        addNewButton.addClickListener(e -> beverageEditor.editBeverage(new Beverage() {
-            @Override
-            public double cost() {
-                return 0;
-            }
-        }));
+        addNewButton.addClickListener(e -> beverageEditor.editBeverage(new Beverage()));
 
         beverageEditor.setChangeHandler(() -> {
             beverageEditor.setVisible(false);
@@ -60,7 +55,7 @@ public class BeverageList extends VerticalLayout {
         if (name.isEmpty()) {
             employeeGrid.setItems(this.beverageService.findOnlyMasterBeverages());
         } else {
-            employeeGrid.setItems(this.beverageService.findById(Long.parseLong(name)));
+            employeeGrid.setItems(this.beverageService.findByDescription(name));
         }
     }
 }

@@ -8,8 +8,8 @@ public interface BeverageService {
     List<Beverage> findAll();
     Beverage findById(Long id);
     Beverage save(Beverage complaint);
-
     void delete(Beverage beverage);
 
     List<Beverage> findOnlyMasterBeverages();
+    List<Beverage>  findByDescription(String description);
 }
