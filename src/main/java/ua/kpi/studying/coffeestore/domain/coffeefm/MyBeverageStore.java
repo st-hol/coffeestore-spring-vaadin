@@ -14,13 +14,24 @@ import ua.kpi.studying.coffeestore.domain.condiments.Whip;
 public class MyBeverageStore extends BeverageStore {
 
 	Beverage makeBeverage(String item) {
+		Beverage beverage;
+		Beverage finalBeverage;
 		switch (item) {
 			case "Espresso":
-				return new Espresso();
+				finalBeverage = new Espresso();
+				beverage = new Espresso();
+				finalBeverage.setDescription(beverage.getDescription());
+				return beverage;
 			case "DarkRoast":
-				return new Whip(new Mocha(new Mocha(new DarkRoast())));
+				finalBeverage = new DarkRoast();
+				beverage = new Whip(new Mocha(new Mocha(finalBeverage)));
+				finalBeverage.setDescription(beverage.getDescription());
+				return beverage;
 			case "HouseBlend":
-				return new Whip(new Mocha(new Soy(new HouseBlend())));
+				finalBeverage = new HouseBlend();
+				beverage = new Whip(new Mocha(new Soy(finalBeverage)));
+				finalBeverage.setDescription(beverage.getDescription());
+				return beverage;
 			default:
 				return null;
 		}

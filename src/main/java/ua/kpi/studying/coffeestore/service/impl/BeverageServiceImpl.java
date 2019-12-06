@@ -8,6 +8,7 @@ import ua.kpi.studying.coffeestore.repository.BeverageRepository;
 import ua.kpi.studying.coffeestore.service.BeverageService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.toIntExact;
 
@@ -45,7 +46,14 @@ public class BeverageServiceImpl implements BeverageService {
 
     @Override
     public  List<Beverage>  findByDescription(String description) {
-        return beverageRepository.findByDescription(description);
+        return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages())
+                .stream()
+//                .map(b-> b.getId() + " " + b.getDescription())
+                .filter(b->(b.getId() + " " + b.getDescription()).contains(description))
+                .collect(Collectors.toList());
+
+        //        return beverageRepository.findByDescriptionOnlyMasters(description);
+        //        return beverageRepository.findByDescription(description);
     }
 }
 

@@ -17,4 +17,7 @@ public interface BeverageRepository extends CrudRepository<Beverage, Integer> {
             "where " +
             "   concat(b.description, ' ', b.id) like concat('%', :name, '%')")
     List<Beverage> findByDescription(@Param("name") String name);
+
+
+//    List<Beverage> findByDescriptionOnlyMasters(@Param("name") String name);
 }
