@@ -83,6 +83,9 @@ public class BeverageList extends VerticalLayout {
 
         add(toolbar, toolbarForAddNew, toolbarForFM, beverageGrid, beverageEditor);
 
+
+        beverageGrid.setColumns("cost", "description");
+
         beverageGrid
                 .asSingleSelect()
                 .addValueChangeListener(e -> beverageEditor.editBeverage(
