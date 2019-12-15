@@ -8,10 +8,8 @@ import javax.persistence.Entity;
 public class HouseBlend extends Beverage {
 	public HouseBlend() {
 		description = "House Blend Coffee";
+        cost = 0.89;
 	}
  
-	public double cost() {
-		return .89;
-	}
 }
 

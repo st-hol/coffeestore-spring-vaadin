@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.kpi.studying.coffeestore.domain.beverages.Beverage;
 import ua.kpi.studying.coffeestore.service.BeverageService;
+import ua.kpi.studying.coffeestore.service.UserService;
 
 
 @SpringComponent
@@ -20,10 +21,11 @@ import ua.kpi.studying.coffeestore.service.BeverageService;
 public class BeverageEditor extends VerticalLayout implements KeyNotifier {
 
     private final BeverageService beverageService;
+    private final UserService userService;
 
     private Beverage beverage;
 
-//    private TextField id = new TextField("", "id");
+    //    private TextField id = new TextField("", "id");
 //    private TextField size = new TextField("", "size");
     private TextField description = new TextField("", "description");
 
@@ -41,8 +43,9 @@ public class BeverageEditor extends VerticalLayout implements KeyNotifier {
     }
 
     @Autowired
-    public BeverageEditor(BeverageService beverageService) {
+    public BeverageEditor(BeverageService beverageService, UserService userService) {
         this.beverageService = beverageService;
+        this.userService = userService;
 
         add(description, buttons);
 //        add(size, id, description, buttons);
@@ -78,17 +81,14 @@ public class BeverageEditor extends VerticalLayout implements KeyNotifier {
             return;
         }
 
-        if (beverage.getId() != 0) { // todo
+        if (beverage.getId() != 0) { //todo
             this.beverage = beverageService.findById((long)beverage.getId());
         } else {
             this.beverage = beverage;
         }
 
         binder.setBean(this.beverage);
-
         setVisible(true);
-
-//        size.focus();
     }
 
     public void addByFm(Beverage beverage) {

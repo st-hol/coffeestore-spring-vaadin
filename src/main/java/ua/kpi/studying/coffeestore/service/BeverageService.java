@@ -1,6 +1,7 @@
 package ua.kpi.studying.coffeestore.service;
 
 import ua.kpi.studying.coffeestore.domain.beverages.Beverage;
+import ua.kpi.studying.coffeestore.dto.BeverageDto;
 
 import java.util.List;
 
@@ -11,6 +12,9 @@ public interface BeverageService {
     Beverage save(Beverage beverage);
     void delete(Beverage beverage);
 
-    List<Beverage> findOnlyMasterBeverages();
-    List<Beverage>  findByDescription(String description);
+    List<BeverageDto> findOnlyMasterBeveragesDtoList();
+
+    List<BeverageDto> findOnlyMasterBeveragesDtoListByUserId(Long id);
+
+    List<BeverageDto> findByDescription(String description);
 }

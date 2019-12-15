@@ -4,8 +4,11 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.kpi.studying.coffeestore.domain.beverages.Beverage;
+import ua.kpi.studying.coffeestore.dto.BeverageDto;
+import ua.kpi.studying.coffeestore.mappers.BeverageMapper;
 import ua.kpi.studying.coffeestore.repository.BeverageRepository;
 import ua.kpi.studying.coffeestore.service.BeverageService;
+import ua.kpi.studying.coffeestore.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +20,10 @@ public class BeverageServiceImpl implements BeverageService {
 
     @Autowired
     private BeverageRepository beverageRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BeverageMapper beverageMapper;
 
     @Override
     public List<Beverage> findAll() {
@@ -30,6 +37,7 @@ public class BeverageServiceImpl implements BeverageService {
 
     @Override
     public Beverage save(Beverage beverage) {
+        beverage.setUser(userService.obtainCurrentPrincipleUser());
         return beverageRepository.save(beverage);
     }
 
@@ -38,22 +46,38 @@ public class BeverageServiceImpl implements BeverageService {
         beverageRepository.delete(beverage);
     }
 
+    //    @Override
+//    public List<Beverage> findOnlyMasterBeverages() {
+//        return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages())
+//                .forEach(beverageMapper::beverageToBeverageDto);
+//    }
     @Override
-    public List<Beverage> findOnlyMasterBeverages() {
-        return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages());
+    public List<BeverageDto> findOnlyMasterBeveragesDtoList() {
+        return beverageRepository.findOnlyMasterBeverages()
+                .stream().map(beverageMapper::beverageToBeverageDto)
+                .collect(Collectors.toList());
     }
 
 
-    @Override
-    public  List<Beverage>  findByDescription(String description) {
-        return Lists.newArrayList(beverageRepository.findOnlyMasterBeverages())
-                .stream()
-//                .map(b-> b.getId() + " " + b.getDescription())
-                .filter(b->(b.getId() + " " + b.getDescription()).contains(description))
-                .collect(Collectors.toList());
+//    @Override
+//    public List<Beverage> findOnlyMasterBeveragesByUserId(Long id) {
+//        return beverageRepository.findOnlyMasterBeveragesByUserId(id);
+//    }
 
-        //        return beverageRepository.findByDescriptionOnlyMasters(description);
-        //        return beverageRepository.findByDescription(description);
+    @Override
+    public List<BeverageDto> findOnlyMasterBeveragesDtoListByUserId(Long id) {
+        return beverageRepository.findOnlyMasterBeveragesByUserId(id)
+                .stream().map(beverageMapper::beverageToBeverageDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BeverageDto> findByDescription(String description) {
+        return this.findOnlyMasterBeveragesDtoListByUserId(
+                userService.obtainCurrentPrincipleUser().getId())
+                .stream()
+                .filter(b -> (b.getCost() + " " + b.getDescription()).contains(description))
+                .collect(Collectors.toList());
     }
 }
 

@@ -9,10 +9,8 @@ public class Espresso extends Beverage {
   
 	public Espresso() {
 		description = "Espresso";
+        cost = 1.99;
 	}
   
-	public double cost() {
-		return 1.99;
-	}
 }
 
